@@ -1,0 +1,135 @@
+
+1. Creating a Small Demo Library
+We'll create a simple Node.js package and publish it.
+
+Step 1: Initialize the Project
+
+mkdir my-demo-lib
+cd my-demo-lib
+npm init -y
+
+This will create a `package.json` file.
+
+---
+
+Step 2: Create a Simple Function
+Create an `index.js` file and add the following function:
+
+javascript
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+module.exports = { greet };
+
+
+---
+
+Step 3: Add a Test
+Create a `test.js` file to test the function:
+
+javascript
+const { greet } = require("./index");
+
+console.log(greet("JFrog"));
+
+
+Run the test:
+
+node test.js
+
+
+---
+
+Step 4: Create `package.json` Metadata
+Ensure your `package.json` has relevant details:
+json
+{
+  "name": "@your-scope/my-demo-lib",
+  "version": "1.0.0",
+  "description": "A demo library for JFrog Artifactory",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/my-demo-lib.git"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
+
+
+---
+
+2. Publishing to JFrog Artifactory
+
+Step 1: Set Up JFrog Artifactory
+1. Log in to JFrog Artifactory.
+2. Go to Admin → Repositories → Local.
+3. Click New Local Repository.
+4. Choose npm as the repository type.
+5. Set the repository key (e.g., `npm-local`).
+6. Save the repository.
+
+
+---
+
+Step 2: Configure `~/.npmrc` for JFrog
+Run the following command to add JFrog authentication:
+
+
+npm config set registry https://your-company.jfrog.io/artifactory/api/npm/npm-local/
+npm login --registry=https://your-company.jfrog.io/artifactory/api/npm/npm-local/
+
+-----> Demo
+npm config set registry https://trialcentific.jfrog.io/artifactory/api/npm/jfog-demo/
+npm login --registry=https://trialcentific.jfrog.io/artifactory/api/npm/jfog-demo/
+
+
+Provide your JFrog username, password/API key, and email when prompted.
+
+
+---
+
+Step 3: Publish the Package
+Run the following command to publish the package to JFrog:
+
+
+npm publish --registry=https://your-company.jfrog.io/artifactory/api/npm/npm-local/
+
+-----> Demo
+npm publish --registry=https://trialcentific.jfrog.io/artifactory/api/npm/jfog-demo/
+
+
+After publishing, you can check the package in JFrog Artifactory UI → npm-local repository.
+
+---
+
+Step 4: Install the Library from JFrog
+Now, you or your team can install the package in another project:
+
+
+npm install @your-scope/my-demo-lib --registry=https://your-company.jfrog.io/artifactory/api/npm/npm-local/
+
+-----> Demo
+
+npm install @navneetgzb/jfrog-demo-lib --registry=https://trialcentific.jfrog.io/artifactory/api/npm/jfog-demo/
+
+---
+
+Step 5: Verify Installation
+Create a new project and test it:
+
+javascript
+const { greet } = require("@your-scope/my-demo-lib");
+
+console.log(greet("Team Gladiators"));
+
+
+Run:
+
+node index.js
+
+
